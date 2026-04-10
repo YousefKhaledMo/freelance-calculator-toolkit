@@ -1552,3 +1552,1552 @@
                   <option value="" disabled selected>Timeline</option>
                   <option value="normal">Normal</option>
                   <option value="fast">Fast</option>
+                  <option value="urgent">Urgent</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label">Country (for tax)</label>
+                <select id="price-country" class="field-select"></select>
+              </div>
+
+              <label class="toggle-row">
+                <input type="checkbox" id="price-includeTax">
+                <span class="toggle-row-text">Add tax to price</span>
+              </label>
+
+              <div class="btn-row">
+                <button type="submit" class="btn btn-prime">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>
+                  Calculate
+                </button>
+                <button type="button" class="btn btn-ghost" onclick="priceReset()">Reset</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right: Results panel -->
+        <div class="panel" id="price-results-panel">
+          <div class="panel-glow-top"></div>
+          <div class="panel-inner">
+            <div class="panel-label">Output</div>
+            <div class="panel-title">Price Analysis</div>
+
+            <div class="results-panel" id="price-results">
+              <div class="print-summary" id="price-printSummary"></div>
+
+              <div class="stat-hero">
+                <div class="stat-label">Suggested Price</div>
+                <div class="stat-value aurora" id="price-finalPrice">$0</div>
+                <div class="stat-sub">Range: <strong id="price-range">$0 – $0</strong></div>
+              </div>
+
+              <div class="info-strip">
+                <div class="info-strip-item">
+                  <span class="info-strip-label">Effective Rate</span>
+                  <span class="info-strip-value" id="price-hourlyRate">$0/hr</span>
+                </div>
+                <div class="info-strip-item" style="text-align:right">
+                  <span class="info-strip-label">Position</span>
+                  <span class="info-strip-value" id="price-positionBadge" style="color:#a78bfa">—</span>
+                </div>
+              </div>
+
+              <!-- Tax result -->
+              <div id="price-taxResult" style="display:none; margin-top:14px;">
+                <div class="tax-grid">
+                  <div class="tax-row"><span class="tk">Subtotal</span><span class="tv" id="price-subtotalDisplay">$0</span></div>
+                  <div class="tax-row"><span class="tk">Tax (<span id="price-taxRateDisplay">0%</span>)</span><span class="tv" id="price-taxAmountDisplay">$0</span></div>
+                  <div class="tax-row tax-total"><span class="tk" style="font-weight:600;color:var(--text-bright)">Total incl. tax</span><span class="tv" id="price-totalWithTaxDisplay">$0</span></div>
+                </div>
+              </div>
+
+              <!-- Breakdown -->
+              <div class="breakdown-list">
+                <div class="breakdown-heading">Price Breakdown</div>
+                <div class="breakdown-row">
+                  <span class="bd-key">Base rate (<span id="price-baseRateLabel">—</span>)</span>
+                  <span class="bd-val" id="price-baseRateValue">—</span>
+                </div>
+                <div class="breakdown-row">
+                  <span class="bd-key">Complexity <span class="bd-tag" id="price-complexityTag">—</span></span>
+                  <span class="bd-val" id="price-complexityValue">—</span>
+                </div>
+                <div class="breakdown-row">
+                  <span class="bd-key">Urgency <span class="bd-tag" id="price-urgencyTag">—</span></span>
+                  <span class="bd-val" id="price-urgencyValue">—</span>
+                </div>
+                <div class="breakdown-row">
+                  <span class="bd-key">Hours</span>
+                  <span class="bd-val" id="price-hoursValue">—</span>
+                </div>
+                <div class="breakdown-row">
+                  <span class="bd-key" style="font-weight:600;color:var(--text-bright)">Calculation</span>
+                  <span class="bd-val" id="price-calcFormula">—</span>
+                </div>
+              </div>
+
+              <!-- Formula -->
+              <div class="formula-block">
+                <div class="formula-line" id="price-formulaStep1"></div>
+                <div class="formula-line" id="price-formulaStep2"></div>
+                <div class="formula-line" id="price-formulaStep3"></div>
+                <div class="formula-line" id="price-formulaResult"></div>
+              </div>
+
+              <!-- Market comparison -->
+              <div class="market-block">
+                <div class="market-head">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                  <span class="market-head-label">Market Comparison — <span id="price-marketProjectType">—</span></span>
+                </div>
+                <div class="market-bars">
+                  <div class="mbar-item">
+                    <div class="mbar-row"><span class="mbar-name">Market Low</span><span class="mbar-val" id="price-marketLow">$0</span></div>
+                    <div class="mbar-track"><div class="mbar-fill low" id="price-marketLowBar" style="width:0%"></div></div>
+                  </div>
+                  <div class="mbar-item">
+                    <div class="mbar-row"><span class="mbar-name">Market Avg</span><span class="mbar-val" id="price-marketAvg">$0</span></div>
+                    <div class="mbar-track"><div class="mbar-fill avg" id="price-marketAvgBar" style="width:0%"></div></div>
+                  </div>
+                  <div class="mbar-item">
+                    <div class="mbar-row"><span class="mbar-name">Market High</span><span class="mbar-val" id="price-marketHigh">$0</span></div>
+                    <div class="mbar-track"><div class="mbar-fill high" id="price-marketHighBar" style="width:0%"></div></div>
+                  </div>
+                  <div class="mbar-item">
+                    <div class="mbar-row"><span class="mbar-name">Your Price</span><span class="mbar-val" id="price-marketYours">$0</span></div>
+                    <div class="mbar-track"><div class="mbar-fill yours" id="price-marketYoursBar" style="width:0%"></div></div>
+                  </div>
+                </div>
+                <div class="market-context-block" id="price-marketContext"></div>
+              </div>
+
+              <div class="alert-box solar-tone" id="price-tipBox">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span id="price-tipText"><strong>Tip:</strong> Higher urgency justifies higher pricing. Add 15-25% buffer for revisions.</span>
+              </div>
+
+              <div class="export-row">
+                <button type="button" class="btn btn-emit" onclick="exportPricePdf()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download Quote PDF
+                </button>
+              </div>
+            </div>
+
+            <!-- Empty state -->
+            <div id="price-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:12px;opacity:0.35;" class="price-empty-state">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-dim)"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <p style="font-size:13px;color:var(--text-dim);text-align:center">Fill in the parameters<br>to see your price analysis</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /tool-price -->
+
+      <!-- ══════════════════════════════════════════════════════
+           TOOL: SCOPE CALCULATOR
+      ══════════════════════════════════════════════════════ -->
+      <div class="tool-section" id="tool-scope">
+
+        <div class="panel">
+          <div class="panel-glow-top"></div>
+          <div class="panel-inner">
+            <div class="panel-label">Configuration</div>
+            <div class="panel-title">Scope Parameters</div>
+
+            <form id="scopeForm">
+              <div class="field-group">
+                <label class="field-label">Project Type</label>
+                <select id="scope-projectType" class="field-select" required>
+                  <option value="" disabled selected>Select project type</option>
+                  <option value="webDesign">Web Design</option>
+                  <option value="webDevelopment">Web Development</option>
+                  <option value="mobileApp">Mobile App Development</option>
+                  <option value="uiUxDesign">UI/UX Design</option>
+                  <option value="graphicDesign">Graphic Design &amp; Branding</option>
+                  <option value="ecommerce">E-Commerce Development</option>
+                  <option value="contentWriting">Content Writing &amp; Copywriting</option>
+                  <option value="videoEditing">Video Editing &amp; Motion</option>
+                  <option value="seoMarketing">SEO &amp; Digital Marketing</option>
+                  <option value="dataScienceAI">Data Science &amp; AI/ML</option>
+                </select>
+              </div>
+
+              <div class="fields-row">
+                <div class="field-group">
+                  <label class="field-label" id="scope-coreUnitsLabel">Number of Pages</label>
+                  <input type="number" id="scope-coreUnits" class="field-input" min="1" max="200" value="5" placeholder="e.g. 5" required>
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Complexity</label>
+                  <select id="scope-complexity" class="field-select" required>
+                    <option value="" disabled selected>Level</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label">Add-on Features</label>
+                <div class="feature-grid" id="scope-featuresGrid"></div>
+              </div>
+
+              <div class="btn-row">
+                <button type="submit" class="btn btn-prime">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>
+                  Calculate Scope
+                </button>
+                <button type="button" class="btn btn-ghost" onclick="scopeReset()">Reset</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-glow-top"></div>
+          <div class="panel-inner">
+            <div class="panel-label">Output</div>
+            <div class="panel-title">Scope Analysis</div>
+
+            <div class="results-panel" id="scope-results">
+              <div class="print-summary" id="scope-printSummary"></div>
+
+              <div class="stat-hero">
+                <div class="stat-label">Total Estimated Hours</div>
+                <div class="stat-value plasma" id="scope-totalHours">0h</div>
+              </div>
+
+              <div class="info-strip">
+                <div class="info-strip-item">
+                  <span class="info-strip-label">Timeline</span>
+                  <span class="info-strip-value" id="scope-timeline">—</span>
+                </div>
+                <div class="info-strip-item" style="text-align:right">
+                  <span class="info-strip-label">Scope Size</span>
+                  <span class="info-strip-value" id="scope-scopeSize" style="color:#a78bfa">—</span>
+                </div>
+              </div>
+
+              <div class="breakdown-list">
+                <div class="breakdown-heading">Scope Breakdown</div>
+                <div id="scope-breakdownItems"></div>
+              </div>
+
+              <div class="formula-block">
+                <div class="formula-line" id="scope-formulaStep1"></div>
+                <div class="formula-line" id="scope-formulaStep2"></div>
+                <div class="formula-line" id="scope-formulaStep3"></div>
+                <div class="formula-line" id="scope-formulaResult"></div>
+              </div>
+
+              <div class="alert-box solar-tone" id="scope-tipBox">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span id="scope-tipText"></span>
+              </div>
+
+              <div class="export-row">
+                <button type="button" class="btn btn-emit" onclick="exportScopePdf()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download Quote PDF
+                </button>
+              </div>
+            </div>
+
+            <div id="scope-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:12px;opacity:0.35;">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-dim)"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <p style="font-size:13px;color:var(--text-dim);text-align:center">Configure your scope<br>to estimate effort</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /tool-scope -->
+
+      <!-- ══════════════════════════════════════════════════════
+           TOOL: PROFIT CALCULATOR
+      ══════════════════════════════════════════════════════ -->
+      <div class="tool-section" id="tool-profit">
+
+        <div class="panel">
+          <div class="panel-glow-top"></div>
+          <div class="panel-inner">
+            <div class="panel-label">Configuration</div>
+            <div class="panel-title">Profit Parameters</div>
+
+            <div class="toast-bar" id="profit-importToast">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span id="profit-toastText">Data imported from other tools</span>
+            </div>
+
+            <form id="profitForm">
+              <div class="fields-row">
+                <div class="field-group">
+                  <label class="field-label">Project Price</label>
+                  <div class="input-wrap has-left">
+                    <span class="sym">$</span>
+                    <input type="number" id="profit-projectPrice" class="field-input" min="0" placeholder="0" required>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Est. Hours</label>
+                  <input type="number" id="profit-estimatedHours" class="field-input" min="1" placeholder="0" required>
+                </div>
+              </div>
+
+              <div class="fields-row">
+                <div class="field-group">
+                  <label class="field-label">Extra Costs</label>
+                  <div class="input-wrap has-left">
+                    <span class="sym">$</span>
+                    <input type="number" id="profit-extraCosts" class="field-input" min="0" placeholder="0" value="0">
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Tax % <span class="opt">(opt)</span></label>
+                  <div class="input-wrap has-right">
+                    <input type="number" id="profit-taxPercent" class="field-input" min="0" max="100" placeholder="0" value="0">
+                    <span class="sym sym-right">%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="btn-row">
+                <button type="submit" class="btn btn-prime">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>
+                  Calculate Profit
+                </button>
+                <button type="button" class="btn btn-ghost" onclick="profitReset()">Reset</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-glow-top"></div>
+          <div class="panel-inner">
+            <div class="panel-label">Output</div>
+            <div class="panel-title">Profit Analysis</div>
+
+            <div class="results-panel" id="profit-results">
+              <div class="stat-hero">
+                <div class="stat-label">Net Profit</div>
+                <div class="stat-value aurora" id="profit-netProfit">$0</div>
+              </div>
+
+              <div class="metrics-strip">
+                <div class="metric-chip glow-plasma">
+                  <span class="mc-label">Per Hour</span>
+                  <span class="mc-value plasma" id="profit-profitPerHour">$0/hr</span>
+                </div>
+                <div class="metric-chip glow-aurora">
+                  <span class="mc-label">Margin</span>
+                  <span class="mc-value aurora" id="profit-profitMargin">0%</span>
+                </div>
+                <div class="metric-chip">
+                  <span class="mc-label">Total Costs</span>
+                  <span class="mc-value" id="profit-totalCosts">$0</span>
+                </div>
+                <div class="metric-chip">
+                  <span class="mc-label">Revenue</span>
+                  <span class="mc-value" id="profit-revenue">$0</span>
+                </div>
+              </div>
+
+              <div class="breakdown-list">
+                <div class="breakdown-heading">Cost Breakdown</div>
+                <div class="breakdown-row">
+                  <span class="bd-key">Revenue (Project Price)</span>
+                  <span class="bd-val" id="profit-breakdownRevenue">$0</span>
+                </div>
+                <div class="breakdown-row">
+                  <span class="bd-key">Extra Costs</span>
+                  <span class="bd-val" id="profit-breakdownExtraCosts">$0</span>
+                </div>
+                <div class="breakdown-row">
+                  <span class="bd-key">Tax Amount</span>
+                  <span class="bd-val" id="profit-breakdownTax">$0</span>
+                </div>
+                <div class="breakdown-row">
+                  <span class="bd-key" style="font-weight:600;color:var(--text-bright)">Total Costs</span>
+                  <span class="bd-val" id="profit-breakdownTotalCosts">$0</span>
+                </div>
+              </div>
+
+              <div class="alert-box aurora-tone" id="profit-insightBox">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span id="profit-insightText"></span>
+              </div>
+
+              <div class="export-row">
+                <button type="button" class="btn btn-emit" onclick="exportProfitPdf()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download Quote PDF
+                </button>
+              </div>
+            </div>
+
+            <div id="profit-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:12px;opacity:0.35;">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-dim)"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <p style="font-size:13px;color:var(--text-dim);text-align:center">Enter your project data<br>to see profit analysis</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /tool-profit -->
+
+      <!-- ══════════════════════════════════════════════════════
+           TOOL: WORKLOAD PLANNER
+      ══════════════════════════════════════════════════════ -->
+      <div class="tool-section" id="tool-workload">
+
+        <div class="panel">
+          <div class="panel-glow-top"></div>
+          <div class="panel-inner">
+            <div class="panel-label">Configuration</div>
+            <div class="panel-title">Schedule Parameters</div>
+
+            <div class="toast-bar" id="workload-importToast">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span id="workload-toastText">Data imported from other tools</span>
+            </div>
+
+            <form id="workloadForm">
+              <div class="fields-row">
+                <div class="field-group">
+                  <label class="field-label">Total Project Hours</label>
+                  <input type="number" id="workload-totalHours" class="field-input" min="1" placeholder="e.g. 40" required>
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Hours / Day</label>
+                  <input type="number" id="workload-hoursPerDay" class="field-input" min="1" max="16" value="6" required>
+                </div>
+              </div>
+
+              <div class="fields-row">
+                <div class="field-group">
+                  <label class="field-label">Working Days / Week</label>
+                  <select id="workload-workingDays" class="field-select" required>
+                    <option value="5" selected>5 Days (Mon–Fri)</option>
+                    <option value="6">6 Days (Mon–Sat)</option>
+                    <option value="7">7 Days (All week)</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Start Date</label>
+                  <input type="date" id="workload-startDate" class="field-input" required>
+                </div>
+              </div>
+
+              <div class="btn-row">
+                <button type="submit" class="btn btn-prime">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>
+                  Plan Schedule
+                </button>
+                <button type="button" class="btn btn-ghost" onclick="workloadReset()">Reset</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-glow-top"></div>
+          <div class="panel-inner">
+            <div class="panel-label">Output</div>
+            <div class="panel-title">Schedule Forecast</div>
+
+            <div class="results-panel" id="workload-results">
+              <div class="stat-hero">
+                <div class="stat-label">Estimated Completion</div>
+                <div class="stat-value plasma" id="workload-endDateDisplay" style="font-size:clamp(22px,4vw,32px);letter-spacing:-1px;">—</div>
+              </div>
+
+              <div class="metrics-strip">
+                <div class="metric-chip glow-plasma">
+                  <span class="mc-label">Total Days</span>
+                  <span class="mc-value plasma" id="workload-daysRequired">—</span>
+                </div>
+                <div class="metric-chip glow-neon">
+                  <span class="mc-label">Total Weeks</span>
+                  <span class="mc-value" id="workload-weeksRequired">—</span>
+                </div>
+                <div class="metric-chip">
+                  <span class="mc-label">Daily Load</span>
+                  <span class="mc-value" id="workload-dailyWorkload">—</span>
+                </div>
+                <div class="metric-chip">
+                  <span class="mc-label">Days/Week</span>
+                  <span class="mc-value" id="workload-workingDaysDisplay">—</span>
+                </div>
+              </div>
+
+              <div class="breakdown-list">
+                <div class="breakdown-heading">Schedule Breakdown</div>
+                <div class="breakdown-row">
+                  <span class="bd-key">Project Start</span>
+                  <span class="bd-val" id="workload-breakdownStart">—</span>
+                </div>
+                <div class="breakdown-row">
+                  <span class="bd-key">Working Days Needed</span>
+                  <span class="bd-val" id="workload-breakdownWorkingDays">—</span>
+                </div>
+                <div class="breakdown-row">
+                  <span class="bd-key">Hours Per Day</span>
+                  <span class="bd-val" id="workload-breakdownHoursPerDay">—</span>
+                </div>
+                <div class="breakdown-row">
+                  <span class="bd-key">Total Project Hours</span>
+                  <span class="bd-val" id="workload-breakdownTotalHours">—</span>
+                </div>
+              </div>
+
+              <div class="alert-box aurora-tone" id="workload-insightBox">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span id="workload-insightText"></span>
+              </div>
+
+              <div class="export-row">
+                <button type="button" class="btn btn-emit" onclick="exportWorkloadPdf()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download Schedule PDF
+                </button>
+              </div>
+            </div>
+
+            <div id="workload-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:12px;opacity:0.35;">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-dim)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <p style="font-size:13px;color:var(--text-dim);text-align:center">Set your hours and schedule<br>to plan your timeline</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /tool-workload -->
+
+      <!-- ══════════════════════════════════════════════════════
+           TOOL: DISCOUNT CALCULATOR
+      ══════════════════════════════════════════════════════ -->
+      <div class="tool-section" id="tool-discount">
+
+        <div class="panel">
+          <div class="panel-glow-top"></div>
+          <div class="panel-inner">
+            <div class="panel-label">Configuration</div>
+            <div class="panel-title">Discount Parameters</div>
+
+            <div class="toast-bar" id="discount-importToast">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span id="discount-toastText">Price imported from Price Calculator</span>
+            </div>
+
+            <form id="discountForm">
+              <div class="field-group">
+                <label class="field-label">Original Price</label>
+                <div class="input-wrap has-left">
+                  <span class="sym">$</span>
+                  <input type="number" id="discount-originalPrice" class="field-input" min="0" placeholder="0" required>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label">Discount Percentage</label>
+                <div class="slider-zone">
+                  <div class="slider-flex">
+                    <div class="slider-flex-track">
+                      <input type="range" id="discount-slider" min="0" max="100" value="0">
+                    </div>
+                    <input type="number" id="discount-number" class="field-input slider-num-input" min="0" max="100" value="0">
+                  </div>
+                  <div class="discount-zone-bar">
+                    <div class="discount-fill-anim" id="discount-barFill" style="width:0%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="btn-row">
+                <button type="button" class="btn btn-ghost" onclick="discountReset()">Reset</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-glow-top"></div>
+          <div class="panel-inner">
+            <div class="panel-label">Output</div>
+            <div class="panel-title">Discount Analysis</div>
+
+            <div class="results-panel" id="discount-results">
+              <div class="stat-hero">
+                <div class="stat-label">Final Price After Discount</div>
+                <div class="stat-value aurora" id="discount-finalPrice">$0</div>
+              </div>
+
+              <div class="metrics-strip">
+                <div class="metric-chip">
+                  <span class="mc-label">Discount Amount</span>
+                  <span class="mc-value crimson" id="discount-discountAmount">$0</span>
+                </div>
+                <div class="metric-chip">
+                  <span class="mc-label">Discount %</span>
+                  <span class="mc-value" id="discount-percentDisplay">0%</span>
+                </div>
+              </div>
+
+              <div class="status-stripe aurora-tone" id="discount-statusBox">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span id="discount-statusText">This discount is reasonable</span>
+              </div>
+
+              <div class="alert-box neutral-tone" style="margin-top:14px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span>Tip: Instead of heavy discounts, consider reducing project scope to maintain your earning potential.</span>
+              </div>
+
+              <div class="export-row">
+                <button type="button" class="btn btn-emit" onclick="exportDiscountPdf()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download Quote PDF
+                </button>
+              </div>
+            </div>
+
+            <div id="discount-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:12px;opacity:0.35;">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-dim)"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <p style="font-size:13px;color:var(--text-dim);text-align:center">Enter a price and slide<br>to see discount impact</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /tool-discount -->
+
+    </section>
+
+    <footer>
+      <p class="foot-note">// Based on freelance market benchmarks &amp; best practices</p>
+    </footer>
+
+  </main><!-- /app-shell -->
+
+  <!-- ============================================================
+       JAVASCRIPT — FULL BUSINESS LOGIC (PRESERVED)
+  ============================================================ -->
+  <script>
+    /* ── DATA ── */
+    const currencyConfig = {
+      USD: { symbol: '$', rate: 1 }, EUR: { symbol: '€', rate: 0.92 }, GBP: { symbol: '£', rate: 0.79 },
+      EGP: { symbol: 'E£', rate: 50.5 }, INR: { symbol: '₹', rate: 83.12 }, AED: { symbol: 'د.إ', rate: 3.67 },
+      SAR: { symbol: 'ر.س', rate: 3.75 }, CAD: { symbol: '$', rate: 1.36 }, AUD: { symbol: '$', rate: 1.53 },
+      CHF: { symbol: 'Fr.', rate: 0.88 }, JPY: { symbol: '¥', rate: 149.5 }, BRL: { symbol: 'R$', rate: 4.97 },
+      MXN: { symbol: '$', rate: 17.15 }, KWD: { symbol: 'د.ك', rate: 0.31 }
+    };
+
+    const countryTaxRates = {
+      US: { name: 'United States', rate: 7.25, taxName: 'Sales Tax' }, GB: { name: 'United Kingdom', rate: 20, taxName: 'VAT' },
+      DE: { name: 'Germany', rate: 19, taxName: 'VAT' }, CA: { name: 'Canada', rate: 13, taxName: 'GST/HST' },
+      AU: { name: 'Australia', rate: 10, taxName: 'GST' }, FR: { name: 'France', rate: 20, taxName: 'TVA' },
+      IN: { name: 'India', rate: 18, taxName: 'GST' }, JP: { name: 'Japan', rate: 10, taxName: 'Consumption Tax' },
+      BR: { name: 'Brazil', rate: 18, taxName: 'ICMS' }, MX: { name: 'Mexico', rate: 16, taxName: 'IVA' },
+      EG: { name: 'Egypt', rate: 14, taxName: 'VAT' }, SA: { name: 'Saudi Arabia', rate: 15, taxName: 'VAT' },
+      AE: { name: 'UAE', rate: 5, taxName: 'VAT' }, CH: { name: 'Switzerland', rate: 7.7, taxName: 'VAT' },
+      NL: { name: 'Netherlands', rate: 21, taxName: 'VAT' }, BE: { name: 'Belgium', rate: 21, taxName: 'VAT' },
+      IT: { name: 'Italy', rate: 22, taxName: 'IVA' }, ES: { name: 'Spain', rate: 21, taxName: 'IVA' },
+      SE: { name: 'Sweden', rate: 25, taxName: 'VAT' }, NO: { name: 'Norway', rate: 25, taxName: 'MVA' },
+      DK: { name: 'Denmark', rate: 25, taxName: 'Moms' }, FI: { name: 'Finland', rate: 24, taxName: 'ALV' },
+      AT: { name: 'Austria', rate: 20, taxName: 'USt' }, IE: { name: 'Ireland', rate: 23, taxName: 'VAT' },
+      NZ: { name: 'New Zealand', rate: 15, taxName: 'GST' }, SG: { name: 'Singapore', rate: 8, taxName: 'GST' },
+      HK: { name: 'Hong Kong', rate: 0, taxName: '-' }, KR: { name: 'South Korea', rate: 10, taxName: 'VAT' },
+      RU: { name: 'Russia', rate: 20, taxName: 'VAT' }, TR: { name: 'Turkey', rate: 20, taxName: 'KDV' },
+      ZA: { name: 'South Africa', rate: 15, taxName: 'VAT' }, IL: { name: 'Israel', rate: 17, taxName: 'VAT' },
+      PH: { name: 'Philippines', rate: 12, taxName: 'VAT' }, ID: { name: 'Indonesia', rate: 11, taxName: 'VAT' },
+      VN: { name: 'Vietnam', rate: 10, taxName: 'VAT' }, TH: { name: 'Thailand', rate: 7, taxName: 'VAT' },
+      MY: { name: 'Malaysia', rate: 6, taxName: 'SST' }, PE: { name: 'Peru', rate: 18, taxName: 'IGV' },
+      CO: { name: 'Colombia', rate: 19, taxName: 'IVA' }, CL: { name: 'Chile', rate: 19, taxName: 'IVA' },
+      AR: { name: 'Argentina', rate: 21, taxName: 'IVA' }, PL: { name: 'Poland', rate: 23, taxName: 'VAT' },
+      PT: { name: 'Portugal', rate: 23, taxName: 'IVA' }, RO: { name: 'Romania', rate: 19, taxName: 'VAT' },
+      UA: { name: 'Ukraine', rate: 20, taxName: 'VAT' }, KE: { name: 'Kenya', rate: 16, taxName: 'VAT' },
+      NG: { name: 'Nigeria', rate: 7.5, taxName: 'VAT' }, ET: { name: 'Ethiopia', rate: 15, taxName: 'VAT' },
+      BD: { name: 'Bangladesh', rate: 15, taxName: 'VAT' }, PK: { name: 'Pakistan', rate: 18, taxName: 'GST' }
+    };
+
+    const projectTypeRates = {
+      webDesign:       { beginner: 25, intermediate: 55,  advanced: 110 },
+      webDevelopment:  { beginner: 35, intermediate: 75,  advanced: 150 },
+      mobileApp:       { beginner: 40, intermediate: 90,  advanced: 175 },
+      uiUxDesign:      { beginner: 30, intermediate: 65,  advanced: 125 },
+      graphicDesign:   { beginner: 20, intermediate: 50,  advanced: 100 },
+      ecommerce:       { beginner: 35, intermediate: 80,  advanced: 150 },
+      contentWriting:  { beginner: 20, intermediate: 50,  advanced: 100 },
+      videoEditing:    { beginner: 20, intermediate: 50,  advanced: 110 },
+      seoMarketing:    { beginner: 25, intermediate: 60,  advanced: 120 },
+      dataScienceAI:   { beginner: 45, intermediate: 100, advanced: 200 }
+    };
+
+    const projectTypeNames = {
+      webDesign: 'Web Design', webDevelopment: 'Web Development', mobileApp: 'Mobile App Development',
+      uiUxDesign: 'UI/UX Design', graphicDesign: 'Graphic Design & Branding', ecommerce: 'E-Commerce Development',
+      contentWriting: 'Content Writing & Copywriting', videoEditing: 'Video Editing & Motion',
+      seoMarketing: 'SEO & Digital Marketing', dataScienceAI: 'Data Science & AI/ML'
+    };
+
+    const complexityMultipliers = { low: 1, medium: 1.5, high: 2 };
+    const urgencyMultipliers    = { normal: 1, fast: 1.25, urgent: 1.5 };
+
+    const marketRatesUSD = {
+      webDesign:      { low: 800,   avg: 3500,  high: 10000 },
+      webDevelopment: { low: 1500,  avg: 6000,  high: 20000 },
+      mobileApp:      { low: 5000,  avg: 25000, high: 80000 },
+      uiUxDesign:     { low: 1000,  avg: 5000,  high: 15000 },
+      graphicDesign:  { low: 500,   avg: 2500,  high: 8000 },
+      ecommerce:      { low: 3000,  avg: 12000, high: 40000 },
+      contentWriting: { low: 200,   avg: 1200,  high: 5000 },
+      videoEditing:   { low: 300,   avg: 2000,  high: 8000 },
+      seoMarketing:   { low: 500,   avg: 2500,  high: 8000 },
+      dataScienceAI:  { low: 2000,  avg: 10000, high: 35000 }
+    };
+
+    const tips = {
+      webDesign:      "Web designers in the top 25% charge $100+/hr. Build a strong portfolio and always present 2–3 concepts.",
+      webDevelopment: "Full-stack developers earn 30–40% more than front-end only. Add performance optimization to justify premium.",
+      mobileApp:      "Mobile projects balloon in scope. Charge a 20–30% discovery fee upfront with a clear feature list.",
+      uiUxDesign:     "UX research can be billed separately. Senior UX designers charge $100–$150/hr on Toptal.",
+      graphicDesign:  "Always retain source files ownership clause. Selling source files as add-on can add 30–50% to your fee.",
+      ecommerce:      "E-commerce has long tails — offer a monthly maintenance retainer ($500–$2,000/mo) after launch.",
+      contentWriting: "SEO-optimized long-form articles (2000+ words) command $0.25–$1.00/word. B2B SaaS can double your rate.",
+      videoEditing:   "Motion graphics and color grading push rates higher. Charge separately for music licensing.",
+      seoMarketing:   "SEO results take 3–6 months — monthly retainers ($1,000–$3,000) beat one-off audits.",
+      dataScienceAI:  "AI/ML expertise is fastest-growing. Data scientists specializing in LLMs can charge $150–$300/hr."
+    };
+
+    const genericTips = [
+      "Always add 15-25% buffer for revisions and scope creep.",
+      "Your price reflects your expertise - never apologize for charging what you're worth.",
+      "Consider offering 3 pricing tiers so clients can choose their comfort level.",
+      "Freelancers who raise rates by 20% annually reach senior-level income in 3 years.",
+      "A clear breakdown like this builds trust - share it with your clients."
+    ];
+
+    const baseHoursPerUnit = {
+      webDesign: 8, webDevelopment: 12, mobileApp: 35, uiUxDesign: 6, graphicDesign: 4,
+      ecommerce: 2, contentWriting: 2, videoEditing: 2, seoMarketing: 2, dataScienceAI: 40
+    };
+
+    const projectTypeConfig = {
+      webDesign: {
+        label: 'Number of Pages', unitName: 'Pages', inputType: 'number', min: 1, max: 100, step: 1,
+        defaultVal: 5, placeholder: 'e.g. 5', hint: 'Homepage + interior pages',
+        features: [
+          { id: 'responsive', name: 'Responsive Design', hours: 8 }, { id: 'seo', name: 'On-Page SEO', hours: 5 },
+          { id: 'cms', name: 'CMS Integration', hours: 10 }, { id: 'graphics', name: 'Custom Graphics', hours: 6 },
+          { id: 'copywriting', name: 'Copywriting', hours: 4 }, { id: 'animation', name: 'Scroll Animations', hours: 5 }
+        ]
+      },
+      webDevelopment: {
+        label: 'Number of Features / Pages', unitName: 'Feature-Pages', inputType: 'number', min: 1, max: 200, step: 1,
+        defaultVal: 8, placeholder: 'e.g. 8', hint: 'Count major routes/modules',
+        features: [
+          { id: 'auth', name: 'User Auth & Roles', hours: 14 }, { id: 'cms', name: 'CMS / Admin Panel', hours: 28 },
+          { id: 'api', name: 'Third-Party API', hours: 16 }, { id: 'payment', name: 'Payment Gateway', hours: 20 },
+          { id: 'database', name: 'Database Design', hours: 10 }, { id: 'testing', name: 'Automated Tests', hours: 12 }
+        ]
+      },
+      mobileApp: {
+        label: 'Number of Screens', unitName: 'Screens', inputType: 'number', min: 1, max: 150, step: 1,
+        defaultVal: 10, placeholder: 'e.g. 10', hint: 'Include auth, tabs & modals',
+        features: [
+          { id: 'push', name: 'Push Notifications', hours: 8 }, { id: 'api', name: 'REST / GraphQL API', hours: 18 },
+          { id: 'payment', name: 'In-App Purchases', hours: 20 }, { id: 'offline', name: 'Offline Mode', hours: 12 },
+          { id: 'analytics', name: 'Analytics & Crash', hours: 6 }, { id: 'biometric', name: 'Biometric Auth', hours: 8 }
+        ]
+      },
+      uiUxDesign: {
+        label: 'Number of Screens / Views', unitName: 'Screens', inputType: 'number', min: 1, max: 150, step: 1,
+        defaultVal: 12, placeholder: 'e.g. 12', hint: 'All unique UI states',
+        features: [
+          { id: 'research', name: 'User Research', hours: 14 }, { id: 'prototype', name: 'Interactive Prototype', hours: 10 },
+          { id: 'system', name: 'Design System', hours: 18 }, { id: 'testing', name: 'Usability Testing', hours: 12 },
+          { id: 'handoff', name: 'Dev Handoff (Figma)', hours: 6 }
+        ]
+      },
+      graphicDesign: {
+        label: 'Number of Deliverables', unitName: 'Deliverables', inputType: 'number', min: 1, max: 50, step: 1,
+        defaultVal: 5, placeholder: 'e.g. 5', hint: 'Logos, banners, mockups…',
+        features: [
+          { id: 'styleGuide', name: 'Brand Style Guide', hours: 12 }, { id: 'sourceFiles', name: 'Source Files (AI)', hours: 3 },
+          { id: 'socialKit', name: 'Social Media Kit', hours: 8 }, { id: 'revisions', name: 'Extra Revision Rnd', hours: 3 },
+          { id: 'packaging', name: 'Packaging Design', hours: 10 }
+        ]
+      },
+      ecommerce: {
+        label: 'Number of Product Listings', unitName: 'Products', inputType: 'number', min: 1, max: 10000, step: 1,
+        defaultVal: 50, placeholder: 'e.g. 50', hint: 'SKUs to set up on launch',
+        features: [
+          { id: 'gateway', name: 'Payment Gateway', hours: 16 }, { id: 'shipping', name: 'Shipping Integration', hours: 12 },
+          { id: 'inventory', name: 'Inventory System', hours: 20 }, { id: 'multilang', name: 'Multi-language', hours: 12 },
+          { id: 'analytics', name: 'Analytics Dashboard', hours: 8 }
+        ]
+      },
+      contentWriting: {
+        label: 'Word Count (thousands)', unitName: 'k Words', inputType: 'number', min: 0.5, max: 500, step: 0.5,
+        defaultVal: 5, placeholder: 'e.g. 5', hint: '5 = 5,000 words',
+        features: [
+          { id: 'seo', name: 'SEO Keyword Research', hours: 5 }, { id: 'research', name: 'In-depth Research', hours: 4 },
+          { id: 'revisions', name: 'Extra Revision Round', hours: 3 }, { id: 'rush', name: 'Rush Delivery', hours: 6 },
+          { id: 'graphics', name: 'Custom Infographics', hours: 4 }
+        ]
+      },
+      videoEditing: {
+        label: 'Finished Video Length (min)', unitName: 'Minutes', inputType: 'number', min: 1, max: 300, step: 1,
+        defaultVal: 5, placeholder: 'e.g. 5', hint: 'Finished output duration',
+        features: [
+          { id: 'motion', name: 'Motion Graphics', hours: 12 }, { id: 'color', name: 'Color Grading', hours: 5 },
+          { id: 'sound', name: 'Sound Design', hours: 6 }, { id: 'rush', name: 'Rush / 48h Turnaround', hours: 10 },
+          { id: 'subtitles', name: 'Subtitles / CC', hours: 3 }
+        ]
+      },
+      seoMarketing: {
+        label: 'Number of Keywords', unitName: 'Keywords', inputType: 'number', min: 1, max: 500, step: 1,
+        defaultVal: 20, placeholder: 'e.g. 20', hint: 'Focus keywords to target',
+        features: [
+          { id: 'analytics', name: 'GA4 & Search Console', hours: 5 }, { id: 'strategy', name: 'Content Strategy', hours: 10 },
+          { id: 'reports', name: 'Monthly Reports', hours: 4 }, { id: 'social', name: 'Social Media Setup', hours: 6 },
+          { id: 'backlinks', name: 'Link Building Campaign', hours: 12 }
+        ]
+      },
+      dataScienceAI: {
+        label: 'Number of Models / Pipelines', unitName: 'Models', inputType: 'number', min: 1, max: 20, step: 1,
+        defaultVal: 1, placeholder: 'e.g. 1', hint: 'ML models or data pipelines',
+        features: [
+          { id: 'visualization', name: 'Data Visualization', hours: 14 }, { id: 'api', name: 'API / Endpoint Deploy', hours: 16 },
+          { id: 'optimization', name: 'Model Optimization', hours: 12 }, { id: 'docs', name: 'Technical Docs', hours: 6 },
+          { id: 'monitoring', name: 'Monitoring & Alerts', hours: 8 }
+        ]
+      }
+    };
+
+    const scopeTips = {
+      small:  "Tip: Great for a quick sprint. Make sure you get all content upfront before starting.",
+      medium: "Tip: Solid project size. Clearly define feature boundaries to avoid scope creep.",
+      large:  "Tip: Large scope detected. Consider breaking this project into 2-3 distinct paid milestones."
+    };
+
+    const profitInsights = {
+      excellent: { cls: 'aurora-tone', icon: 'check', text: "Excellent profit margin! You're pricing your work appropriately." },
+      good:      { cls: 'aurora-tone', icon: 'check', text: "Good profit margin. Your rates are healthy." },
+      low:       { cls: 'solar-tone',  icon: 'warn',  text: "Low hourly profit may indicate underpricing. Consider raising your rates." },
+      negative:  { cls: 'crimson-tone',icon: 'warn',  text: "Warning: You're losing money on this project. Review your costs and pricing." }
+    };
+
+    let currentPriceCalculation = {};
+
+    /* ── THEME TOGGLE ── */
+    function applyTheme(isLight) {
+      const html     = document.documentElement;
+      const sunIcon  = document.querySelector('.sun-icon');
+      const moonIcon = document.querySelector('.moon-icon');
+      if (isLight) {
+        html.classList.add('light');
+        // In light mode, show sun (click to go back to dark)
+        sunIcon.style.display  = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        html.classList.remove('light');
+        // In dark mode, show moon (click to go light)
+        sunIcon.style.display  = 'none';
+        moonIcon.style.display = 'block';
+      }
+    }
+
+    // Load saved preference
+    const savedTheme = localStorage.getItem('fos_theme');
+    applyTheme(savedTheme === 'light');
+
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      const isNowLight = !document.documentElement.classList.contains('light');
+      applyTheme(isNowLight);
+      localStorage.setItem('fos_theme', isNowLight ? 'light' : 'dark');
+    });
+
+    /* ── NAV ── */
+    const toolMeta = {
+      price:    { title: 'Price Intelligence',   subtitle: 'Stop undercharging. Price your work with confidence.' },
+      scope:    { title: 'Scope Calculator',     subtitle: 'Estimate your project timeline and effort accurately.' },
+      profit:   { title: 'Profit Analyzer',      subtitle: 'Know exactly what you actually earn from every project.' },
+      workload: { title: 'Workload Planner',     subtitle: 'Plan your time. Avoid burnout. Hit every deadline.' },
+      discount: { title: 'Discount Intelligence',subtitle: 'Give discounts strategically, without losing control.' }
+    };
+
+    document.querySelectorAll('.nav-pill').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tool = this.dataset.tool;
+
+        document.querySelectorAll('.nav-pill').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        document.querySelectorAll('.tool-section').forEach(s => s.classList.remove('active'));
+        const section = document.getElementById('tool-' + tool);
+        section.classList.add('active');
+
+        const meta = toolMeta[tool];
+        const titleEl = document.getElementById('dynamicTitle');
+        const subEl   = document.getElementById('dynamicSubtitle');
+
+        titleEl.style.opacity = '0'; titleEl.style.transform = 'translateY(8px)';
+        subEl.style.opacity   = '0';
+        setTimeout(() => {
+          titleEl.textContent = meta.title;
+          subEl.textContent   = meta.subtitle;
+          document.title = meta.title + ' | Freelance OS';
+          titleEl.style.transition = 'all 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+          subEl.style.transition   = 'all 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+          titleEl.style.opacity    = '1'; titleEl.style.transform = 'translateY(0)';
+          subEl.style.opacity      = '1';
+        }, 120);
+      });
+    });
+
+    /* ── COUNTRY SELECT ── */
+    function initCountries() {
+      const select = document.getElementById('price-country');
+      select.innerHTML = '<option value="">No country selected</option>';
+      Object.keys(countryTaxRates).sort().forEach(code => {
+        const c = countryTaxRates[code];
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.textContent = c.name + ' (' + c.rate + '% ' + c.taxName + ')';
+        select.appendChild(opt);
+      });
+    }
+
+    /* ── CURRENCY HELPERS ── */
+    function formatCurrency(amount, currency = 'USD') {
+      const curr = currencyConfig[currency] || currencyConfig.USD;
+      return curr.symbol + Math.round(amount * curr.rate).toLocaleString();
+    }
+
+    function priceFormatCurrency(amount) {
+      return formatCurrency(amount, document.getElementById('price-currency').value);
+    }
+
+    function priceGetCurrency() {
+      return document.getElementById('price-currency').value;
+    }
+
+    /* ── EMPTY / RESULTS TOGGLE ── */
+    function showResults(toolId) {
+      const results = document.getElementById(toolId + '-results');
+      const empty   = document.getElementById(toolId + '-empty');
+      if (results) results.classList.add('live');
+      if (empty)   empty.style.display = 'none';
+    }
+
+    function hideResults(toolId) {
+      const results = document.getElementById(toolId + '-results');
+      const empty   = document.getElementById(toolId + '-empty');
+      if (results) results.classList.remove('live');
+      if (empty)   empty.style.display = '';
+    }
+
+    /* ══════════════════════════════════════════════════════
+       PRICE CALCULATOR
+    ══════════════════════════════════════════════════════ */
+    document.getElementById('priceForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      calculatePrice();
+    });
+
+    function calculatePrice() {
+      const projectType = document.getElementById('price-projectType').value;
+      const experience  = document.getElementById('price-experience').value;
+      const hours       = parseInt(document.getElementById('price-hours').value);
+      const complexity  = document.getElementById('price-complexity').value;
+      const urgency     = document.getElementById('price-urgency').value;
+      const country     = document.getElementById('price-country').value;
+      const taxEnabled  = document.getElementById('price-includeTax').checked;
+
+      if (!projectType || !experience || !hours || hours < 1 || !complexity || !urgency) return;
+
+      const baseRateUSD      = projectTypeRates[projectType][experience];
+      const complexityMult   = complexityMultipliers[complexity];
+      const urgencyMult      = urgencyMultipliers[urgency];
+      const basePrice        = hours * baseRateUSD;
+      const finalPriceUSD    = basePrice * complexityMult * urgencyMult;
+      const minPriceUSD      = finalPriceUSD * 0.9;
+      const maxPriceUSD      = finalPriceUSD * 1.2;
+      const hourlyEquivUSD   = finalPriceUSD / hours;
+
+      let taxAmount = 0, totalWithTax = finalPriceUSD, taxRate = 0, taxName = '';
+      if (taxEnabled && country && countryTaxRates[country]) {
+        taxRate    = countryTaxRates[country].rate;
+        taxName    = countryTaxRates[country].taxName;
+        taxAmount  = finalPriceUSD * (taxRate / 100);
+        totalWithTax = finalPriceUSD + taxAmount;
+      }
+
+      currentPriceCalculation = { projectType, experience, hours, complexity, urgency, country, baseRateUSD, complexityMult, urgencyMult, basePrice, finalPriceUSD, minPriceUSD, maxPriceUSD, hourlyEquivUSD, taxEnabled, taxRate, taxName, taxAmount, totalWithTax };
+
+      const displayPrice = taxEnabled && taxAmount > 0 ? totalWithTax : finalPriceUSD;
+
+      /* Update stat */
+      const finalEl = document.getElementById('price-finalPrice');
+      finalEl.textContent = priceFormatCurrency(displayPrice);
+      finalEl.className   = 'stat-value aurora num-animate';
+      void finalEl.offsetWidth;
+      finalEl.className = 'stat-value aurora';
+
+      document.getElementById('price-range').textContent =
+        priceFormatCurrency(minPriceUSD) + ' – ' + priceFormatCurrency(maxPriceUSD);
+      document.getElementById('price-hourlyRate').textContent =
+        priceFormatCurrency(hourlyEquivUSD) + '/hr';
+
+      /* Position badge */
+      const market = marketRatesUSD[projectType];
+      let pos = '—', posColor = '#a78bfa';
+      if (finalPriceUSD < market.low)       { pos = 'Below Market'; posColor = '#f87171'; }
+      else if (finalPriceUSD <= market.avg)  { pos = 'Competitive'; posColor = '#34d399'; }
+      else if (finalPriceUSD <= market.high) { pos = 'Strong'; posColor = '#60a5fa'; }
+      else                                   { pos = 'Premium'; posColor = '#fbbf24'; }
+      const posBadge = document.getElementById('price-positionBadge');
+      if (posBadge) { posBadge.textContent = pos; posBadge.style.color = posColor; }
+
+      /* Tax panel */
+      const taxResult = document.getElementById('price-taxResult');
+      if (taxEnabled && taxAmount > 0) {
+        document.getElementById('price-taxRateDisplay').textContent    = taxRate + '% ' + taxName;
+        document.getElementById('price-subtotalDisplay').textContent   = priceFormatCurrency(finalPriceUSD);
+        document.getElementById('price-taxAmountDisplay').textContent  = priceFormatCurrency(taxAmount);
+        document.getElementById('price-totalWithTaxDisplay').textContent = priceFormatCurrency(totalWithTax);
+        taxResult.style.display = 'block';
+      } else { taxResult.style.display = 'none'; }
+
+      /* Breakdown rows */
+      document.getElementById('price-baseRateLabel').textContent    = experience.charAt(0).toUpperCase() + experience.slice(1);
+      document.getElementById('price-baseRateValue').textContent    = priceFormatCurrency(baseRateUSD) + '/hr';
+      document.getElementById('price-complexityTag').textContent    = complexity.charAt(0).toUpperCase() + complexity.slice(1);
+      document.getElementById('price-complexityValue').textContent  = complexityMult + 'x';
+      document.getElementById('price-urgencyTag').textContent       = urgency.charAt(0).toUpperCase() + urgency.slice(1);
+      document.getElementById('price-urgencyValue').textContent     = urgencyMult + 'x';
+      document.getElementById('price-hoursValue').textContent       = hours + ' hrs';
+      document.getElementById('price-calcFormula').textContent      =
+        hours + ' hrs × ' + priceFormatCurrency(baseRateUSD) + '/hr × ' + complexityMult + ' × ' + urgencyMult;
+
+      /* Formula */
+      document.getElementById('price-formulaStep1').innerHTML =
+        '<span class="v">' + hours + ' hrs</span> <span class="op">×</span> <span class="v">' + priceFormatCurrency(baseRateUSD) + '/hr</span> <span class="op">=</span> <span class="v">' + priceFormatCurrency(basePrice) + '</span> base';
+      document.getElementById('price-formulaStep2').innerHTML =
+        '<span class="v">' + priceFormatCurrency(basePrice) + '</span> <span class="op">×</span> <span class="v">' + complexityMult + 'x</span> complexity <span class="op">=</span> <span class="v">' + priceFormatCurrency(basePrice * complexityMult) + '</span>';
+      document.getElementById('price-formulaStep3').innerHTML =
+        '<span class="v">' + priceFormatCurrency(basePrice * complexityMult) + '</span> <span class="op">×</span> <span class="v">' + urgencyMult + 'x</span> urgency';
+      document.getElementById('price-formulaResult').innerHTML =
+        '<span class="op">=</span> <span class="res">' + priceFormatCurrency(finalPriceUSD) + '</span> final price';
+
+      /* Market comparison */
+      document.getElementById('price-marketProjectType').textContent = projectTypeNames[projectType];
+      document.getElementById('price-marketLow').textContent   = priceFormatCurrency(market.low);
+      document.getElementById('price-marketAvg').textContent   = priceFormatCurrency(market.avg);
+      document.getElementById('price-marketHigh').textContent  = priceFormatCurrency(market.high);
+      document.getElementById('price-marketYours').textContent = priceFormatCurrency(finalPriceUSD);
+
+      const maxVal = Math.max(market.high, finalPriceUSD);
+      setTimeout(() => {
+        document.getElementById('price-marketLowBar').style.width   = (market.low  / maxVal * 100) + '%';
+        document.getElementById('price-marketAvgBar').style.width   = (market.avg  / maxVal * 100) + '%';
+        document.getElementById('price-marketHighBar').style.width  = (market.high / maxVal * 100) + '%';
+        document.getElementById('price-marketYoursBar').style.width = (finalPriceUSD / maxVal * 100) + '%';
+      }, 100);
+
+      const ctxEl = document.getElementById('price-marketContext');
+      const pname = projectTypeNames[projectType];
+      if (finalPriceUSD < market.low)       ctxEl.innerHTML = '<p><strong>Below market.</strong> Your price is under the typical range for ' + pname + '. Consider raising your rate or verify your hour estimate.</p>';
+      else if (finalPriceUSD <= market.avg)  ctxEl.innerHTML = '<p><strong>Competitive pricing.</strong> Your rate sits in the lower-to-mid range for ' + pname + '. Great for building a portfolio or landing new clients.</p>';
+      else if (finalPriceUSD <= market.high) ctxEl.innerHTML = '<p><strong>Strong pricing.</strong> You are in the mid-to-upper range for ' + pname + '. This reflects solid experience and quality delivery.</p>';
+      else                                   ctxEl.innerHTML = '<p><strong>Premium pricing.</strong> Your rate exceeds typical market highs for ' + pname + '. Make sure your portfolio and deliverables justify this level.</p>';
+
+      /* Tip */
+      const tipText = tips[projectType] || genericTips[Math.floor(Math.random() * genericTips.length)];
+      document.getElementById('price-tipText').innerHTML = '<strong>Tip:</strong> ' + tipText;
+
+      /* Print summary */
+      const ps = document.getElementById('price-printSummary');
+      if (ps) {
+        const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        ps.innerHTML = [
+          ['Project Type', projectTypeNames[projectType]], ['Experience', experience.charAt(0).toUpperCase() + experience.slice(1)],
+          ['Hours', hours + ' hrs'], ['Complexity', complexity.charAt(0).toUpperCase() + complexity.slice(1)],
+          ['Urgency', urgency.charAt(0).toUpperCase() + urgency.slice(1)],
+          ['Base Rate', priceFormatCurrency(baseRateUSD) + '/hr'], ['Date', date]
+        ].map(([l, v]) => '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1e293b"><span style="color:#64748b">' + l + '</span><span style="font-weight:600">' + v + '</span></div>').join('');
+      }
+
+      showResults('price');
+
+      localStorage.setItem('freelance_price_data', JSON.stringify({
+        projectPrice: finalPriceUSD, taxPercent: taxRate, taxName, currency: priceGetCurrency(), timestamp: Date.now()
+      }));
+    }
+
+    function priceReset() {
+      document.getElementById('priceForm').reset();
+      hideResults('price');
+      document.getElementById('price-taxResult').style.display = 'none';
+    }
+
+    function exportPricePdf() {
+      document.querySelectorAll('.tool-section').forEach(s => s.classList.remove('print-active'));
+      document.getElementById('tool-price').classList.add('print-active');
+      window.print();
+    }
+
+    /* ══════════════════════════════════════════════════════
+       SCOPE CALCULATOR
+    ══════════════════════════════════════════════════════ */
+    document.getElementById('scopeForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      calculateScope();
+    });
+
+    document.getElementById('scope-projectType').addEventListener('change', function() {
+      applyScopeProjectTypeConfig(this.value);
+    });
+
+    function applyScopeProjectTypeConfig(type) {
+      const config = projectTypeConfig[type];
+      if (!config) return;
+
+      document.getElementById('scope-coreUnitsLabel').textContent = config.label;
+      const inp = document.getElementById('scope-coreUnits');
+      inp.type        = config.inputType || 'number';
+      inp.min         = config.min ?? 1;
+      if (config.max != null) inp.max = config.max;
+      inp.step        = config.step ?? 1;
+      inp.placeholder = config.placeholder || '';
+      inp.value       = config.defaultVal ?? 1;
+      renderScopeFeatures(config.features);
+    }
+
+    function renderScopeFeatures(features) {
+      const grid = document.getElementById('scope-featuresGrid');
+      grid.innerHTML = '';
+      features.forEach(feat => {
+        const div = document.createElement('div');
+        div.className = 'chip-wrap';
+        div.innerHTML =
+          '<input type="checkbox" id="scope-feature_' + feat.id + '" value="' + feat.hours + '">' +
+          '<label class="chip-label" for="scope-feature_' + feat.id + '">' + feat.name +
+          '<small>+' + feat.hours + 'h</small></label>';
+        grid.appendChild(div);
+      });
+    }
+
+    function calculateScope() {
+      const projectType = document.getElementById('scope-projectType').value;
+      const coreUnits   = parseFloat(document.getElementById('scope-coreUnits').value);
+      const complexity  = document.getElementById('scope-complexity').value;
+
+      if (!projectType || !coreUnits || coreUnits <= 0 || !complexity) return;
+
+      const config         = projectTypeConfig[projectType];
+      const baseHours      = baseHoursPerUnit[projectType];
+      const complexityMult = complexityMultipliers[complexity];
+      const baseCalc       = coreUnits * baseHours * complexityMult;
+
+      const featureCBs    = document.querySelectorAll('#scope-featuresGrid input[type="checkbox"]');
+      let featureHours    = 0;
+      const selectedFeatures = [];
+
+      featureCBs.forEach(cb => {
+        if (cb.checked) {
+          featureHours += parseFloat(cb.value);
+          const labelEl = cb.nextElementSibling;
+          const cleanName = labelEl ? labelEl.firstChild.textContent.trim() : '';
+          selectedFeatures.push({ name: cleanName, hours: parseFloat(cb.value) });
+        }
+      });
+
+      const totalHours = baseCalc + featureHours;
+      const baseDays   = Math.ceil(totalHours / 6);
+      const bufferDays = Math.ceil(baseDays * 0.2);
+      const minDays    = baseDays;
+      const maxDays    = baseDays + bufferDays;
+      const scopeSize  = totalHours < 40 ? 'Small' : totalHours < 150 ? 'Medium' : 'Large';
+
+      document.getElementById('scope-totalHours').textContent = Math.round(totalHours) + 'h';
+      document.getElementById('scope-timeline').textContent   = minDays + ' – ' + maxDays + ' Working Days';
+      document.getElementById('scope-scopeSize').textContent  = scopeSize;
+
+      const unitLabel   = config.unitName;
+      const bdItems     = document.getElementById('scope-breakdownItems');
+      bdItems.innerHTML = '<div class="breakdown-row"><span class="bd-key">Base (' + coreUnits + ' ' + unitLabel + ' × ' + baseHours + 'h × ' + complexityMult + 'x)</span><span class="bd-val">' + Math.round(baseCalc) + 'h</span></div>';
+      selectedFeatures.forEach(feat => {
+        bdItems.innerHTML += '<div class="breakdown-row"><span class="bd-key">' + feat.name + '</span><span class="bd-val">+' + feat.hours + 'h</span></div>';
+      });
+
+      document.getElementById('scope-formulaStep1').innerHTML =
+        '<span class="op">Base:</span> ' + coreUnits + ' ' + unitLabel + ' <span class="op">×</span> ' + baseHours + 'h <span class="op">×</span> ' + complexityMult + 'x <span class="op">=</span> <span class="v">' + Math.round(baseCalc) + 'h</span>';
+      document.getElementById('scope-formulaStep2').innerHTML =
+        '<span class="op">Features:</span> ' + featureHours + 'h <span class="op">=</span> <span class="v">' + featureHours + 'h</span>';
+      document.getElementById('scope-formulaStep3').innerHTML =
+        '<span class="op">Total:</span> ' + Math.round(baseCalc) + 'h <span class="op">+</span> ' + featureHours + 'h <span class="op">=</span> <span class="v">' + Math.round(totalHours) + 'h</span>';
+      document.getElementById('scope-formulaResult').innerHTML =
+        '<span class="op">Timeline:</span> ' + Math.ceil(totalHours / 6) + ' days <span class="op">+</span> 20% buffer <span class="op">=</span> <span class="res">' + minDays + ' – ' + maxDays + ' days</span>';
+
+      const tipKey = totalHours < 30 ? 'small' : totalHours < 80 ? 'medium' : 'large';
+      document.getElementById('scope-tipText').textContent = scopeTips[tipKey];
+
+      const ps = document.getElementById('scope-printSummary');
+      if (ps) {
+        const pnames = { webDesign:'Web Design',webDevelopment:'Web Development',mobileApp:'Mobile App',uiUxDesign:'UI/UX Design',graphicDesign:'Graphic Design',ecommerce:'E-Commerce',contentWriting:'Content Writing',videoEditing:'Video Editing',seoMarketing:'SEO & Marketing',dataScienceAI:'Data Science/AI' };
+        const date = new Date().toLocaleDateString('en-US', { year:'numeric',month:'short',day:'numeric' });
+        ps.innerHTML = [
+          ['Project Type', pnames[projectType] || projectType], ['Volume', coreUnits + ' ' + unitLabel],
+          ['Complexity', complexity.charAt(0).toUpperCase() + complexity.slice(1)], ['Base Rate', baseHours + 'h / ' + unitLabel],
+          ['Add-on Hours', featureHours + 'h'], ['Total Hours', Math.round(totalHours) + 'h'], ['Date', date]
+        ].map(([l,v]) => '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1e293b"><span style="color:#64748b">' + l + '</span><span style="font-weight:600">' + v + '</span></div>').join('');
+      }
+
+      showResults('scope');
+
+      localStorage.setItem('freelance_scope_data', JSON.stringify({
+        totalHours: Math.round(totalHours), projectType, complexity, baseHours, featureHours, timestamp: Date.now()
+      }));
+    }
+
+    function scopeReset() {
+      document.getElementById('scopeForm').reset();
+      hideResults('scope');
+      applyScopeProjectTypeConfig('webDesign');
+    }
+
+    function exportScopePdf() {
+      document.querySelectorAll('.tool-section').forEach(s => s.classList.remove('print-active'));
+      document.getElementById('tool-scope').classList.add('print-active');
+      window.print();
+    }
+
+    /* ══════════════════════════════════════════════════════
+       PROFIT CALCULATOR
+    ══════════════════════════════════════════════════════ */
+    document.getElementById('profitForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      calculateProfit();
+    });
+
+    function calculateProfit() {
+      const projectPrice    = parseFloat(document.getElementById('profit-projectPrice').value)    || 0;
+      const estimatedHours  = parseFloat(document.getElementById('profit-estimatedHours').value)  || 0;
+      const extraCosts      = parseFloat(document.getElementById('profit-extraCosts').value)      || 0;
+      const taxPercent      = parseFloat(document.getElementById('profit-taxPercent').value)      || 0;
+
+      if (!projectPrice || projectPrice < 0 || !estimatedHours || estimatedHours < 1) return;
+
+      const revenue       = projectPrice;
+      const taxAmount     = (taxPercent / 100) * revenue;
+      const totalCosts    = extraCosts + taxAmount;
+      const netProfit     = revenue - totalCosts;
+      const profitPerHour = netProfit / estimatedHours;
+      const profitMargin  = revenue > 0 ? (netProfit / revenue) * 100 : 0;
+
+      /* Net profit */
+      const npEl = document.getElementById('profit-netProfit');
+      npEl.textContent = (netProfit < 0 ? '-' : '') + '$' + Math.abs(Math.round(netProfit)).toLocaleString();
+      npEl.className = 'stat-value ' + (netProfit > 0 ? 'aurora' : netProfit === 0 ? 'solar' : 'crimson');
+
+      /* Per hour */
+      const pphEl = document.getElementById('profit-profitPerHour');
+      pphEl.textContent = (profitPerHour < 0 ? '-' : '') + '$' + Math.abs(Math.round(profitPerHour)) + '/hr';
+      pphEl.className = 'mc-value ' + (profitPerHour > 30 ? 'aurora' : profitPerHour > 0 ? 'solar' : 'crimson');
+
+      /* Margin */
+      const pmEl = document.getElementById('profit-profitMargin');
+      pmEl.textContent = profitMargin.toFixed(1) + '%';
+      pmEl.className = 'mc-value ' + (profitMargin >= 40 ? 'aurora' : profitMargin >= 20 ? 'solar' : 'crimson');
+
+      document.getElementById('profit-totalCosts').textContent = '$' + Math.round(totalCosts).toLocaleString();
+      document.getElementById('profit-revenue').textContent    = '$' + Math.round(revenue).toLocaleString();
+
+      document.getElementById('profit-breakdownRevenue').textContent    = '$' + Math.round(revenue).toLocaleString();
+      document.getElementById('profit-breakdownExtraCosts').textContent = '$' + Math.round(extraCosts).toLocaleString();
+      document.getElementById('profit-breakdownTax').textContent        = '$' + Math.round(taxAmount).toLocaleString();
+      document.getElementById('profit-breakdownTotalCosts').textContent = '$' + Math.round(totalCosts).toLocaleString();
+
+      /* Insight */
+      const insightKey = netProfit < 0 ? 'negative' : profitMargin < 20 ? 'low' : profitMargin < 40 ? 'good' : 'excellent';
+      const insight    = profitInsights[insightKey];
+      const insightBox = document.getElementById('profit-insightBox');
+      insightBox.className = 'alert-box ' + insight.cls;
+      const svgInner = insight.icon === 'check'
+        ? '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>'
+        : '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>';
+      insightBox.querySelector('svg').innerHTML = svgInner;
+      document.getElementById('profit-insightText').textContent = insight.text;
+
+      showResults('profit');
+    }
+
+    function profitReset() {
+      document.getElementById('profitForm').reset();
+      hideResults('profit');
+    }
+
+    function exportProfitPdf() {
+      document.querySelectorAll('.tool-section').forEach(s => s.classList.remove('print-active'));
+      document.getElementById('tool-profit').classList.add('print-active');
+      window.print();
+    }
+
+    /* ══════════════════════════════════════════════════════
+       WORKLOAD PLANNER
+    ══════════════════════════════════════════════════════ */
+    document.getElementById('workloadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      calculateWorkload();
+    });
+
+    function calculateWorkload() {
+      const totalProjectHours  = parseFloat(document.getElementById('workload-totalHours').value);
+      const hoursPerDay        = parseFloat(document.getElementById('workload-hoursPerDay').value);
+      const workingDaysPerWeek = parseInt(document.getElementById('workload-workingDays').value);
+      const startDateInput     = document.getElementById('workload-startDate').value;
+
+      if (!totalProjectHours || totalProjectHours < 1 || !hoursPerDay || hoursPerDay < 1 || hoursPerDay > 16 || !startDateInput) return;
+
+      const startDate  = new Date(startDateInput);
+      const daysNeeded = Math.ceil(totalProjectHours / hoursPerDay);
+      const weeksNeeded = Math.ceil(daysNeeded / workingDaysPerWeek);
+
+      const endDate     = new Date(startDate);
+      let daysAdded     = 0;
+      let currentDate   = new Date(startDate);
+
+      while (daysAdded < daysNeeded) {
+        currentDate.setDate(currentDate.getDate() + 1);
+        const dow = currentDate.getDay();
+        if (workingDaysPerWeek === 5) { if (dow !== 0 && dow !== 6) daysAdded++; }
+        else if (workingDaysPerWeek === 6) { if (dow !== 0) daysAdded++; }
+        else { daysAdded++; }
+      }
+
+      endDate.setTime(currentDate.getTime());
+      const fmt = d => d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
+
+      document.getElementById('workload-endDateDisplay').textContent        = fmt(endDate);
+      document.getElementById('workload-daysRequired').textContent          = daysNeeded + ' days';
+      document.getElementById('workload-weeksRequired').textContent         = weeksNeeded + ' weeks';
+      document.getElementById('workload-dailyWorkload').textContent         = hoursPerDay + ' hrs/day';
+      document.getElementById('workload-workingDaysDisplay').textContent    = workingDaysPerWeek + ' days';
+      document.getElementById('workload-breakdownStart').textContent        = fmt(startDate);
+      document.getElementById('workload-breakdownWorkingDays').textContent  = daysNeeded + ' days';
+      document.getElementById('workload-breakdownHoursPerDay').textContent  = hoursPerDay + ' hours';
+      document.getElementById('workload-breakdownTotalHours').textContent   = totalProjectHours + ' hours';
+
+      const insightBox  = document.getElementById('workload-insightBox');
+      const insightText = document.getElementById('workload-insightText');
+      if (hoursPerDay > 10) {
+        insightBox.className = 'alert-box crimson-tone';
+        insightBox.querySelector('svg').innerHTML = '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>';
+        insightText.textContent = 'Warning: Risk of burnout — consider reducing daily hours to protect your health and quality of work.';
+      } else if (hoursPerDay > 8) {
+        insightBox.className = 'alert-box solar-tone';
+        insightBox.querySelector('svg').innerHTML = '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>';
+        insightText.textContent = 'This schedule may be tight. Consider spreading the workload over more days for better work-life balance.';
+      } else {
+        insightBox.className = 'alert-box aurora-tone';
+        insightBox.querySelector('svg').innerHTML = '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>';
+        insightText.textContent = 'This is a manageable workload. Great job planning ahead to avoid burnout!';
+      }
+
+      showResults('workload');
+    }
+
+    function workloadReset() {
+      document.getElementById('workloadForm').reset();
+      hideResults('workload');
+      document.getElementById('workload-hoursPerDay').value = 6;
+      document.getElementById('workload-workingDays').value = 5;
+      document.getElementById('workload-startDate').value = new Date().toISOString().split('T')[0];
+    }
+
+    function exportWorkloadPdf() {
+      document.querySelectorAll('.tool-section').forEach(s => s.classList.remove('print-active'));
+      document.getElementById('tool-workload').classList.add('print-active');
+      window.print();
+    }
+
+    /* ══════════════════════════════════════════════════════
+       DISCOUNT CALCULATOR
+    ══════════════════════════════════════════════════════ */
+    const discountSlider  = document.getElementById('discount-slider');
+    const discountNumber  = document.getElementById('discount-number');
+    const discountBarFill = document.getElementById('discount-barFill');
+
+    discountSlider.addEventListener('input', function() {
+      discountNumber.value = this.value;
+      discountBarFill.style.width = this.value + '%';
+      calculateDiscount();
+    });
+
+    discountNumber.addEventListener('input', function() {
+      let value = parseInt(this.value) || 0;
+      if (value > 100) value = 100;
+      if (value < 0)   value = 0;
+      this.value = value;
+      discountSlider.value = value;
+      discountBarFill.style.width = value + '%';
+      calculateDiscount();
+    });
+
+    document.getElementById('discount-originalPrice').addEventListener('input', calculateDiscount);
+
+    function calculateDiscount() {
+      const originalPrice   = parseFloat(document.getElementById('discount-originalPrice').value) || 0;
+      const discountPercent = parseInt(discountNumber.value) || 0;
+
+      if (originalPrice <= 0) {
+        hideResults('discount');
+        return;
+      }
+
+      const discountAmount = originalPrice * (discountPercent / 100);
+      const finalPrice     = originalPrice - discountAmount;
+
+      const finalPriceEl    = document.getElementById('discount-finalPrice');
+      const discountAmountEl = document.getElementById('discount-discountAmount');
+      const statusBox       = document.getElementById('discount-statusBox');
+      const statusText      = document.getElementById('discount-statusText');
+
+      finalPriceEl.textContent    = '$' + finalPrice.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      discountAmountEl.textContent = '-$' + discountAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      document.getElementById('discount-percentDisplay').textContent = discountPercent + '%';
+
+      finalPriceEl.className  = 'stat-value ';
+      statusBox.className     = 'status-stripe ';
+
+      if (discountPercent <= 15) {
+        finalPriceEl.className  += 'aurora';
+        statusBox.className     += 'aurora-tone';
+        statusText.textContent   = 'This discount is reasonable';
+        statusBox.querySelector('svg').innerHTML = '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>';
+      } else if (discountPercent <= 30) {
+        finalPriceEl.className  += 'solar';
+        statusBox.className     += 'solar-tone';
+        statusText.textContent   = 'Be careful, this may reduce your profit significantly';
+        statusBox.querySelector('svg').innerHTML = '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>';
+      } else {
+        finalPriceEl.className  += 'crimson';
+        statusBox.className     += 'crimson-tone';
+        statusText.textContent   = 'High discount — consider reducing scope instead of heavy discounts';
+        statusBox.querySelector('svg').innerHTML = '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>';
+      }
+
+      showResults('discount');
+    }
+
+    function discountReset() {
+      document.getElementById('discount-originalPrice').value = '';
+      discountSlider.value = 0;
+      discountNumber.value = 0;
+      discountBarFill.style.width = '0%';
+      hideResults('discount');
+    }
+
+    function exportDiscountPdf() {
+      document.querySelectorAll('.tool-section').forEach(s => s.classList.remove('print-active'));
+      document.getElementById('tool-discount').classList.add('print-active');
+      window.print();
+    }
+
+    /* ══════════════════════════════════════════════════════
+       CROSS-TOOL DATA IMPORT
+    ══════════════════════════════════════════════════════ */
+    function checkImportedData() {
+      const priceData = localStorage.getItem('freelance_price_data');
+      const scopeData = localStorage.getItem('freelance_scope_data');
+
+      if (scopeData) {
+        const scope = JSON.parse(scopeData);
+        if (scope.totalHours && scope.totalHours > 0) {
+          document.getElementById('workload-totalHours').value = scope.totalHours;
+          const toast = document.getElementById('workload-importToast');
+          document.getElementById('workload-toastText').textContent = 'Project hours imported from Scope Calculator';
+          toast.classList.add('live');
+          setTimeout(() => toast.classList.remove('live'), 3500);
+        }
+      }
+
+      if (priceData) {
+        const price = JSON.parse(priceData);
+        if (price.projectPrice && price.projectPrice > 0) {
+          document.getElementById('discount-originalPrice').value = price.projectPrice;
+          const toast = document.getElementById('discount-importToast');
+          toast.classList.add('live');
+          setTimeout(() => toast.classList.remove('live'), 3500);
+          calculateDiscount();
+        }
+      }
+
+      let importedFrom = [];
+      if (priceData) {
+        const price = JSON.parse(priceData);
+        if (price.projectPrice && price.projectPrice > 0) {
+          document.getElementById('profit-projectPrice').value = price.projectPrice;
+          if (price.taxPercent && price.taxPercent > 0) {
+            document.getElementById('profit-taxPercent').value = price.taxPercent;
+          }
+          importedFrom.push('Price Calculator');
+        }
+      }
+      if (scopeData) {
+        const scope = JSON.parse(scopeData);
+        if (scope.totalHours && scope.totalHours > 0) {
+          document.getElementById('profit-estimatedHours').value = scope.totalHours;
+          importedFrom.push('Scope Calculator');
+        }
+      }
+      if (importedFrom.length > 0) {
+        const toast = document.getElementById('profit-importToast');
+        document.getElementById('profit-toastText').textContent =
+          importedFrom.length === 2 ? 'Data imported from Price & Scope Calculators' : 'Data imported from ' + importedFrom[0];
+        toast.classList.add('live');
+        setTimeout(() => toast.classList.remove('live'), 3500);
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       MOUSE PARALLAX — subtle 3D on panels
+    ══════════════════════════════════════════════════════ */
+    document.querySelectorAll('.panel').forEach(panel => {
+      panel.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width  - 0.5;
+        const y = (e.clientY - rect.top)  / rect.height - 0.5;
+        this.style.transform = `perspective(1000px) rotateY(${x * 2}deg) rotateX(${-y * 2}deg) translateZ(4px)`;
+        this.style.transition = 'transform 0.1s linear';
+      });
+      panel.addEventListener('mouseleave', function() {
+        this.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) translateZ(0)';
+        this.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+      });
+    });
+
+    /* ══════════════════════════════════════════════════════
+       CURSOR GLOW EFFECT ON CANVAS
+    ══════════════════════════════════════════════════════ */
+    const orb3 = document.querySelector('.bg-orb-3');
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth  - 0.5) * 60;
+      const y = (e.clientY / window.innerHeight - 0.5) * 60;
+      orb3.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+      orb3.style.transition = 'transform 1.5s cubic-bezier(0.25,0.46,0.45,0.94)';
+    });
+
+    /* ══════════════════════════════════════════════════════
+        INIT
+    ══════════════════════════════════════════════════════ */
+    document.getElementById('workload-startDate').value = new Date().toISOString().split('T')[0];
+    initCountries();
+    applyScopeProjectTypeConfig('webDesign');
+    setTimeout(checkImportedData, 100);
+  </script>
+</body>
+</html>
